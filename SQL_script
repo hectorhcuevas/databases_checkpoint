@@ -1,0 +1,396 @@
+vacations=# CREATE TABLE destinations ( id serial PRIMARY KEY, name TEXT, fllight_cost integer, has_beach boolean, has_mountains boolean );
+CREATE TABLE
+vacations=# SELECT * FROM destinations                                                                                                     
+;
+
+vacations=# INSERT INTO destinations (name, avg_temp, flight_cost, has_beach, has_mountains) VALUES ('Thailand',82,765,true,true);
+ERROR:  column "avg_temp" of relation "destinations" does not exist
+LINE 1: INSERT INTO destinations (name, avg_temp, flight_cost, has_b...
+                                        ^
+vacations=# DROP TABLE destinations
+vacations-# ;
+DROP TABLE
+vacations=# ls
+vacations-# CREATE TABLE destinations ( id serial PRIMARY KEY, name TEXT,avg_temp integer,  fllight_cost integer, has_beach boolean, has_mountains boolean );
+ERROR:  syntax error at or near "ls"
+LINE 1: ls
+        ^
+vacations=# CREATE TABLE destinations ( id serial PRIMARY KEY, name TEXT,avg_temp integer,  fllight_cost integer, has_beach boolean, has_mountains boolean );
+CREATE TABLE
+vacations=# INSERT INTO destinations (name, avg_temp, flight_cost, has_beach, has_mountains) VALUES ('Thailand',82,765,true,true);                           
+ERROR:  column "flight_cost" of relation "destinations" does not exist
+LINE 1: INSERT INTO destinations (name, avg_temp, flight_cost, has_b...
+                                                  ^
+vacations=# DROP TABLE destinations                                                                                                                          
+;
+DROP TABLE
+vacations=# CREATE TABLE destinations ( id serial PRIMARY KEY, name TEXT,avg_temp integer,  flight_cost integer, has_beach boolean, has_mountains boolean );
+CREATE TABLE
+vacations=# INSERT INTO destinations (name, avg_temp, flight_cost, has_beach, has_mountains) VALUES ('Thailand',82,765,true,true);                          
+INSERT 0 1
+vacations=# INSERT INTO destinations (name, avg_temp, flight_cost, has_beach, has_mountains) VALUES ('Minnesota',41,235,false,false);
+INSERT 0 1
+vacations=# INSERT INTO destinations (name, avg_temp, flight_cost, has_beach, has_mountains) VALUES ('New Zealand',66,433,true,true);
+INSERT 0 1
+vacations=# INSERT INTO destinations (name, avg_temp, flight_cost, has_beach, has_mountains) VALUES ('England',45,290,false,false);
+INSERT 0 1
+vacations=# INSERT INTO destinations (name, avg_temp, flight_cost, has_beach, has_mountains) VALUES ('Tristan da Cunha',59,1304,true,true);
+INSERT 0 1
+vacations=# CREATE TABLE airlines ( id serial PRIMARY KEY, name TEXT);
+CREATE TABLE
+vacations=# SELECT * FROM destinations;
+  1 | Thailand         |       82 |         765 | t         | t
+  2 | Minnesota        |       41 |         235 | f         | f
+  3 | New Zealand      |       66 |         433 | t         | t
+  4 | England          |       45 |         290 | f         | f
+  5 | Tristan da Cunha |       59 |        1304 | t         | t
+
+vacations=# INSERT INTO destinations (name) VALUES ('Spirit');
+INSERT 0 1
+vacations=# 
+vacations=# INSERT INTO destinations (name) VALUES ('Lufthansa');
+INSERT 0 1
+vacations=# INSERT INTO destinations (name) VALUES ('Delta');
+INSERT 0 1
+vacations=# INSERT INTO destinations (name) VALUES ('Southwest');
+INSERT 0 1
+vacations=# SELECT * FROM vacations WHERE has_beach=true;
+ERROR:  relation "vacations" does not exist
+LINE 1: SELECT * FROM vacations WHERE has_beach=true;
+                      ^
+vacations=# SELECT * FROM destinations WHERE has_beach=true;
+  1 | Thailand         |       82 |         765 | t         | t
+  3 | New Zealand      |       66 |         433 | t         | t
+  5 | Tristan da Cunha |       59 |        1304 | t         | t
+
+vacations=# SELECT * FROM destinations WHERE avg_temp > 60;
+  1 | Thailand    |       82 |         765 | t         | t
+  3 | New Zealand |       66 |         433 | t         | t
+
+vacations=# SELECT * FROM destinations WHERE has_beach=true  AND has_mountains=true; 
+  1 | Thailand         |       82 |         765 | t         | t
+  3 | New Zealand      |       66 |         433 | t         | t
+  5 | Tristan da Cunha |       59 |        1304 | t         | t
+
+vacations=# SELECT * FROM destinations WHERE flight_cost  < 500 AND has_mountains=true;
+  3 | New Zealand |       66 |         433 | t         | t
+
+vacations=# SELECT * FROM destinations
+vacations-# ;
+  1 | Thailand         |       82 |         765 | t         | t
+  2 | Minnesota        |       41 |         235 | f         | f
+  3 | New Zealand      |       66 |         433 | t         | t
+  4 | England          |       45 |         290 | f         | f
+  5 | Tristan da Cunha |       59 |        1304 | t         | t
+  6 | Spirit           |          |             |           | 
+  7 | Lufthansa        |          |             |           | 
+  8 | Delta            |          |             |           | 
+  9 | Southwest        |          |             |           | 
+
+vacations=# DELETE FROM destinations WHERE name='Spirit';
+DELETE 1
+vacations=# DELETE FROM destinations WHERE name='Delta';
+DELETE 1
+vacations=# DELETE FROM destinations WHERE name='Southwest';
+DELETE 1
+vacations=# DELETE FROM destinations WHERE name='Lufthansa';
+DELETE 1
+vacations=# SELECT * FROM destinations
+;
+  1 | Thailand         |       82 |         765 | t         | t
+  2 | Minnesota        |       41 |         235 | f         | f
+  3 | New Zealand      |       66 |         433 | t         | t
+  4 | England          |       45 |         290 | f         | f
+  5 | Tristan da Cunha |       59 |        1304 | t         | t
+
+vacations=# INSERT INTO airlines (name) VALUES ('Delta');
+INSERT 0 1
+vacations=# INSERT INTO airlines (name) VALUES ('Spirit');
+INSERT 0 1
+vacations=# INSERT INTO airlines (name) VALUES ('Southwest');
+INSERT 0 1
+vacations=# INSERT INTO airlines (name) VALUES ('Lufthansa');
+INSERT 0 1
+vacations=# SELECT * FROM airlines;
+  1 | Delta
+  2 | Spirit
+  3 | Southwest
+  4 | Lufthansa
+
+vacations=# INSERT INTO destinations (name, avg_temp, flight_cost, has_beach, has_mountains) VALUES ('Bahamas',78,345,true,true);
+INSERT 0 1
+vacations=# UPDATE destinations SET flight_cost=1000
+vacations-# SELECT * FROM destinations;
+ERROR:  syntax error at or near "SELECT"
+LINE 2: SELECT * FROM destinations;
+        ^
+vacations=# UPDATE destinations SET flight_cost=1000;
+UPDATE 6
+vacations=# SELECT * FROM destinations
+vacations-# ;
+  1 | Thailand         |       82 |        1000 | t         | t
+  2 | Minnesota        |       41 |        1000 | f         | f
+  3 | New Zealand      |       66 |        1000 | t         | t
+  4 | England          |       45 |        1000 | f         | f
+  5 | Tristan da Cunha |       59 |        1000 | t         | t
+ 10 | Bahamas          |       78 |        1000 | t         | t
+
+vacations=# UPDATE destinations SET flight_cost=345 WHERE name='Bahamas';
+UPDATE 1
+vacations=# ls
+vacations-# ;
+ERROR:  syntax error at or near "ls"
+LINE 1: ls
+        ^
+vacations=# SELECT * FROM destinations
+;
+  1 | Thailand         |       82 |        1000 | t         | t
+  2 | Minnesota        |       41 |        1000 | f         | f
+  3 | New Zealand      |       66 |        1000 | t         | t
+  4 | England          |       45 |        1000 | f         | f
+  5 | Tristan da Cunha |       59 |        1000 | t         | t
+ 10 | Bahamas          |       78 |         345 | t         | t
+
+vacations=# UPDATE destinations SET flight_cost=290 WHERE name='England';
+UPDATE 1
+vacations=# UPDATE destinations SET flight_cost=1304 WHERE name='Tristan da Cunha';
+UPDATE 1
+vacations=# UPDATE destinations SET flight_cost=235  WHERE name='Minnesota';
+UPDATE 1
+vacations=# UPDATE destinations SET flight_cost=765  WHERE name='Thailand';
+UPDATE 1
+vacations=# SELECT * FROM destinations;
+  3 | New Zealand      |       66 |        1000 | t         | t
+ 10 | Bahamas          |       78 |         345 | t         | t
+  4 | England          |       45 |         290 | f         | f
+  5 | Tristan da Cunha |       59 |        1304 | t         | t
+  2 | Minnesota        |       41 |         235 | f         | f
+  1 | Thailand         |       82 |         765 | t         | t
+
+vacations=# DELETE FROM destinations WHERE name='Minnesota';
+DELETE 1
+vacations=# SELECT * FROM destinations;
+  3 | New Zealand      |       66 |        1000 | t         | t
+ 10 | Bahamas          |       78 |         345 | t         | t
+  4 | England          |       45 |         290 | f         | f
+  5 | Tristan da Cunha |       59 |        1304 | t         | t
+  1 | Thailand         |       82 |         765 | t         | t
+
+vacations=# UPDATE destinations SET name='Scotland'  WHERE name='England';
+UPDATE 1
+vacations=# SELECT * FROM destinations;
+  3 | New Zealand      |       66 |        1000 | t         | t
+ 10 | Bahamas          |       78 |         345 | t         | t
+  5 | Tristan da Cunha |       59 |        1304 | t         | t
+  1 | Thailand         |       82 |         765 | t         | t
+  4 | Scotland         |       45 |         290 | f         | f
+
+vacations=# CREATE TABLE flights (id serial PRIMARY KEY, destination TEXT, CONSTRAINT fk_destinations FOREIGN_KEY(destination_id) REFERENCES destinations(id) ON DELETE SET NULL, FOREIGN_KEY(airline_id) REFERENCES airlines(id) ON DELETE SET NULL;
+vacations(# );
+ERROR:  syntax error at or near "FOREIGN_KEY"
+LINE 1: ...KEY, destination TEXT, CONSTRAINT fk_destinations FOREIGN_KE...
+                                                             ^
+vacations=# CREATE TABLE flights (id serial PRIMARY KEY, destination TEXT, CONSTRAINT fk_destinations FOREIGN_KEY(destination_id) REFERENCES destinations(id) ON DELETE SET NULL, FOREIGN_KEY(airline_id) REFERENCES airlines(id) ON DELETE SET NULL);
+ERROR:  syntax error at or near "FOREIGN_KEY"
+LINE 1: ...KEY, destination TEXT, CONSTRAINT fk_destinations FOREIGN_KE...
+                                                             ^
+vacations=# CREATE TABLE flights (id serial PRIMARY KEY, destination TEXT, destination_id REFERENCES destinations(id), airline_id REFERENCES airlines(id));
+ERROR:  syntax error at or near "REFERENCES"
+LINE 1: ...ial PRIMARY KEY, destination TEXT, destination_id REFERENCES...
+                                                             ^
+vacations=# CREATE TABLE flights (id serial PRIMARY KEY, destination TEXT, destination_id integer REFERENCES destinations(id), airline_id integer REFERENCES airlines(id));
+CREATE TABLE
+vacations=# SELECT * FROM flights;
+
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('Thailand',1,1);
+INSERT 0 1
+vacations=# SELECT * FROM flights;
+  1 | Thailand    |              1 |          1
+
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('Thailand',1,4);
+INSERT 0 1
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('New Zealand',3,2);
+INSERT 0 1
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('New Zealand',3,3);
+INSERT 0 1
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('Tristan da Cunha',5,4);
+INSERT 0 1
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('Tristan da Cunha',5,3);
+INSERT 0 1
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('Scotland',4,2);
+INSERT 0 1
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('Scotland',4,4);
+INSERT 0 1
+vacations=# INSERT INTO flights (destination, destination_id, airline_id) VALUES ('Scotland',4,1);
+INSERT 0 1
+vacations=# ALTER TABLE flights ADD COLUMN airline TEXT;
+ALTER TABLE
+vacations=# SELECT * FROM flights;
+  1 | Thailand         |              1 |          1 | 
+  2 | Thailand         |              1 |          4 | 
+  3 | New Zealand      |              3 |          2 | 
+  4 | New Zealand      |              3 |          3 | 
+  5 | Tristan da Cunha |              5 |          4 | 
+  6 | Tristan da Cunha |              5 |          3 | 
+  7 | Scotland         |              4 |          2 | 
+  8 | Scotland         |              4 |          4 | 
+  9 | Scotland         |              4 |          1 | 
+
+vacations=# UPDATE flights SET airline='Spirit' WHERE airline_id=2;
+UPDATE 2
+vacations=# SELECT * FROM flights;
+  1 | Thailand         |              1 |          1 | 
+  2 | Thailand         |              1 |          4 | 
+  4 | New Zealand      |              3 |          3 | 
+  5 | Tristan da Cunha |              5 |          4 | 
+  6 | Tristan da Cunha |              5 |          3 | 
+  8 | Scotland         |              4 |          4 | 
+  9 | Scotland         |              4 |          1 | 
+  3 | New Zealand      |              3 |          2 | Spirit
+  7 | Scotland         |              4 |          2 | Spirit
+
+vacations=# UPDATE flights SET airline='Delta' WHERE airline_id=1;
+UPDATE 2
+vacations=# UPDATE flights SET airline='Southwest' WHERE airline_id=3;
+UPDATE 2
+vacations=# UPDATE flights SET airline='Lufthansa' WHERE airline_id=4;
+UPDATE 3
+vacations=# SELECT * FROM flights;
+  3 | New Zealand      |              3 |          2 | Spirit
+  7 | Scotland         |              4 |          2 | Spirit
+  1 | Thailand         |              1 |          1 | Delta
+  9 | Scotland         |              4 |          1 | Delta
+  4 | New Zealand      |              3 |          3 | Southwest
+  6 | Tristan da Cunha |              5 |          3 | Southwest
+  2 | Thailand         |              1 |          4 | Lufthansa
+  5 | Tristan da Cunha |              5 |          4 | Lufthansa
+  8 | Scotland         |              4 |          4 | Lufthansa
+
+vacations=# SELECT UNIQUE* FROM flights WHERE destination='New Zealand';
+ERROR:  syntax error at or near "*"
+LINE 1: SELECT UNIQUE* FROM flights WHERE destination='New Zealand';
+                     ^
+vacations=# SELECT UNIQUE FROM flights WHERE destination='New Zealand';
+ERROR:  syntax error at or near "FROM"
+LINE 1: SELECT UNIQUE FROM flights WHERE destination='New Zealand';
+                      ^
+vacations=# SELECT * FROM flights WHERE destination='New Zealand';
+  3 | New Zealand |              3 |          2 | Spirit
+  4 | New Zealand |              3 |          3 | Southwest
+
+vacations=# SELECT * FROM flights WHERE destination != 'Scotland';
+  3 | New Zealand      |              3 |          2 | Spirit
+  1 | Thailand         |              1 |          1 | Delta
+  4 | New Zealand      |              3 |          3 | Southwest
+  6 | Tristan da Cunha |              5 |          3 | Southwest
+  2 | Thailand         |              1 |          4 | Lufthansa
+  5 | Tristan da Cunha |              5 |          4 | Lufthansa
+
+vacations=# SELECT * FROM flights WHERE airline='Spirit'; 
+  3 | New Zealand |              3 |          2 | Spirit
+  7 | Scotland    |              4 |          2 | Spirit
+
+vacations=# SELECT airline FROM (SELECT * flights WHERE destination = 'Scotland');
+ERROR:  syntax error at or near "flights"
+LINE 1: SELECT airline FROM (SELECT * flights WHERE destination = 'S...
+                                      ^
+vacations=# SELECT airline FROM (SELECT * FROM flights WHERE destination = 'Scotland');
+ERROR:  subquery in FROM must have an alias
+LINE 1: SELECT airline FROM (SELECT * FROM flights WHERE destination...
+                            ^
+HINT:  For example, FROM (SELECT ...) [AS] foo.
+vacations=# SELECT airline FROM (SELECT * FROM flights WHERE destination = 'Scotland');
+ERROR:  subquery in FROM must have an alias
+LINE 1: SELECT airline FROM (SELECT * FROM flights WHERE destination...
+                            ^
+HINT:  For example, FROM (SELECT ...) [AS] foo.
+vacations=# SELECT airline FROM (SELECT * flights WHERE destination = 'Scotland');
+ERROR:  syntax error at or near "flights"
+LINE 1: SELECT airline FROM (SELECT * flights WHERE destination = 'S...
+                                      ^
+vacations=# SELECT * FROM flights WHERE destination = 'Scotland';
+  7 | Scotland    |              4 |          2 | Spirit
+  9 | Scotland    |              4 |          1 | Delta
+  8 | Scotland    |              4 |          4 | Lufthansa
+
+vacations=# SELECT airline FROM (SELECT * flights WHERE destination = 'Scotland');
+ERROR:  syntax error at or near "flights"
+LINE 1: SELECT airline FROM (SELECT * flights WHERE destination = 'S...
+                                      ^
+vacations=# SELECT airline FROM flights WHERE airline NOT IN (SELECT * FROM flights WHERE destination = 'Scotland');
+ERROR:  subquery has too many columns
+LINE 1: SELECT airline FROM flights WHERE airline NOT IN (SELECT * F...
+                                                  ^
+vacations=# SELECT airline FROM flights WHERE airline NOT IN (SELECT * FROM flights WHERE destination = 'Scotland');
+ERROR:  subquery has too many columns
+LINE 1: SELECT airline FROM flights WHERE airline NOT IN (SELECT * F...
+                                                  ^
+vacations=# SELECT * FROM flights WHERE destination = 'Scotland';
+  7 | Scotland    |              4 |          2 | Spirit
+  9 | Scotland    |              4 |          1 | Delta
+  8 | Scotland    |              4 |          4 | Lufthansa
+
+vacations=# SELECT airline FROM flights WHERE destination = 'Scotland';
+ Spirit
+ Delta
+ Lufthansa
+
+vacations=# SELECT airline FROM flights WHERE airline NOT IN (SELECT airline FROM flights WHERE destination = 'Scotland');
+ Southwest
+ Southwest
+
+vacations=# SELECT DISTINCT airline FROM flights WHERE airline NOT IN (SELECT airline FROM flights WHERE destination = 'Scotland');
+ Southwest
+
+vacations=# SELECT * FROM vacations;
+ERROR:  relation "vacations" does not exist
+LINE 1: SELECT * FROM vacations;
+                      ^
+vacations=# SELECT * FROM destinations,flights,airlines;
+  3 | New Zealand      |       66 |        1000 | t         | t             |  3 | New Zealand      |              3 |          2 | Spirit    |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  3 | New Zealand      |              3 |          2 | Spirit    |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  3 | New Zealand      |              3 |          2 | Spirit    |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  3 | New Zealand      |              3 |          2 | Spirit    |  4 | Lufthansa
+  3 | New Zealand      |       66 |        1000 | t         | t             |  7 | Scotland         |              4 |          2 | Spirit    |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  7 | Scotland         |              4 |          2 | Spirit    |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  7 | Scotland         |              4 |          2 | Spirit    |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  7 | Scotland         |              4 |          2 | Spirit    |  4 | Lufthansa
+  3 | New Zealand      |       66 |        1000 | t         | t             |  1 | Thailand         |              1 |          1 | Delta     |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  1 | Thailand         |              1 |          1 | Delta     |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  1 | Thailand         |              1 |          1 | Delta     |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  1 | Thailand         |              1 |          1 | Delta     |  4 | Lufthansa
+  3 | New Zealand      |       66 |        1000 | t         | t             |  9 | Scotland         |              4 |          1 | Delta     |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  9 | Scotland         |              4 |          1 | Delta     |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  9 | Scotland         |              4 |          1 | Delta     |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  9 | Scotland         |              4 |          1 | Delta     |  4 | Lufthansa
+  3 | New Zealand      |       66 |        1000 | t         | t             |  4 | New Zealand      |              3 |          3 | Southwest |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  4 | New Zealand      |              3 |          3 | Southwest |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  4 | New Zealand      |              3 |          3 | Southwest |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  4 | New Zealand      |              3 |          3 | Southwest |  4 | Lufthansa
+  3 | New Zealand      |       66 |        1000 | t         | t             |  6 | Tristan da Cunha |              5 |          3 | Southwest |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  6 | Tristan da Cunha |              5 |          3 | Southwest |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  6 | Tristan da Cunha |              5 |          3 | Southwest |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  6 | Tristan da Cunha |              5 |          3 | Southwest |  4 | Lufthansa
+  3 | New Zealand      |       66 |        1000 | t         | t             |  2 | Thailand         |              1 |          4 | Lufthansa |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  2 | Thailand         |              1 |          4 | Lufthansa |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  2 | Thailand         |              1 |          4 | Lufthansa |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  2 | Thailand         |              1 |          4 | Lufthansa |  4 | Lufthansa
+  3 | New Zealand      |       66 |        1000 | t         | t             |  5 | Tristan da Cunha |              5 |          4 | Lufthansa |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  5 | Tristan da Cunha |              5 |          4 | Lufthansa |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  5 | Tristan da Cunha |              5 |          4 | Lufthansa |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  5 | Tristan da Cunha |              5 |          4 | Lufthansa |  4 | Lufthansa
+  3 | New Zealand      |       66 |        1000 | t         | t             |  8 | Scotland         |              4 |          4 | Lufthansa |  1 | Delta
+  3 | New Zealand      |       66 |        1000 | t         | t             |  8 | Scotland         |              4 |          4 | Lufthansa |  2 | Spirit
+  3 | New Zealand      |       66 |        1000 | t         | t             |  8 | Scotland         |              4 |          4 | Lufthansa |  3 | Southwest
+  3 | New Zealand      |       66 |        1000 | t         | t             |  8 | Scotland         |              4 |          4 | Lufthansa |  4 | Lufthansa
+ 10 | Bahamas          |       78 |         345 | t         | t             |  3 | New Zealand      |              3 |          2 | Spirit    |  1 | Delta
+ 10 | Bahamas          |       78 |         345 | t         | t             |  3 | New Zealand      |              3 |          2 | Spirit    |  2 | Spirit
+ 10 | Bahamas          |       78 |         345 | t         | t             |  3 | New Zealand      |              3 |          2 | Spirit    |  3 | Southwest
+ 10 | Bahamas          |       78 |         345 | t         | t             |  3 | New Zealand      |              3 |          2 | Spirit    |  4 | Lufthansa
+ 10 | Bahamas          |       78 |         345 | t         | t             |  7 | Scotland         |              4 |          2 | Spirit    |  1 | Delta
+ 10 | Bahamas          |       78 |         345 | t         | t             |  7 | Scotland         |              4 |          2 | Spirit    |  2 | Spirit
+ 10 | Bahamas          |       78 |         345 | t         | t             |  7 | Scotland         |              4 |          2 | Spirit    |  3 | Southwest
+ 10 | Bahamas          |       78 |         345 | t         | t             |  7 | Scotland         |              4 |          2 | Spirit    |  4 | Lufthansa
+ 10 | Bahamas          |       78 |         345 | t         | t             |  1 | Thailand         |              1 |          1 | Delta     |  1 | Delta
+ 10 | Bahamas          |       78 |         345 | t         | t             |  1 | Thailand         |              1 |          1 | Delta     |  2 | Spirit
+ 10 | Bahamas          |       78 |         345 | t         | t             |  1 | Thailand         |              1 |          1 | Delta     |  3 | Southwest
